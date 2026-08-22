@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Rememes - User</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { background: #0A0A0B; color: #F5F5F7; font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 70px; }
+    .app-container { max-width: 480px; margin: 0 auto; padding: 0 16px; }
+    .app-header { position: sticky; top: 0; background: rgba(10,10,11,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #2B2B30; padding: 12px 0; z-index: 10; display: flex; align-items: center; gap: 12px; }
+    .heading { font-size: 1.5rem; font-weight: 700; }
+    .profile-header { background: #111113; border: 1px solid #2B2B30; border-radius: 14px; padding: 16px; margin: 16px 0; box-shadow: 0 8px 24px rgba(0,0,0,0.4); display: flex; flex-direction: column; gap: 16px; }
+    .profile-top { display: flex; align-items: center; gap: 18px; }
+    .profile-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #F5F5F7;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.05));
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+  position: relative;
+  z-index: 1;
+} .profile-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+    .profile-avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+    .profile-info { flex: 1; }
+    .profile-username { font-size: 1.125rem; font-weight: 600; }
+    .profile-bio { font-size: 0.875rem; color: #9E9EA3; margin-top: 4px; }
+    .profile-meta { display: flex; justify-content: space-between; gap: 8px; margin-top: 16px; }
+    .meta-item { text-align: center; flex: 1; }
+    .meta-value { font-weight: 700; font-size: 1rem; }
+    .meta-label { font-size: 0.7rem; color: #9E9EA3; }
+    .profile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px; }
+    .grid-item { aspect-ratio: 1; background: #1A1A1D; border-radius: 8px; overflow: hidden; }
+    .grid-item img, .grid-item video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .empty-state { text-align: center; color: #9E9EA3; padding: 32px 0; }
+  
+.follow-btn {
+  background: #FFFFFF;
+  color: #000;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  margin-top: 12px;
+}
+.follow-btn.following {
+  background: #1A1A1D;
+  color: #F5F5F7;
+  border: 1px solid #2B2B30;
+}
+
+.profile-divider {
+  border: none;
+  border-top: 2px solid #3A3A44;
+  height: 2px;
+  margin: 24px 0 16px;
+  width: 100%;
+  display: block;
+  background: transparent;
+}
+.profile-subdivider {
+  border: none;
+  border-top: 1px solid #2B2B30;
+  margin: 16px 0 16px;
+  width: 100%;
+  display: block;
+}
+
+.streak-inactive {
+  filter: grayscale(100%);
+  opacity: 0.5;
+}
+
+    /* Glass profile card */
+    .profile-header {
+      background: rgba(255,255,255,0.04) !important;
+      backdrop-filter: blur(24px) !important;
+      -webkit-backdrop-filter: blur(24px) !important;
+      border: 1px solid rgba(255,255,255,0.08) !important;
+      border-radius: 24px !important;
+      padding: 20px 16px !important;
+      margin: 16px 0 !important;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.45) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 16px !important;
+    }
+    .profile-avatar {
+      width: 72px !important;
+      height: 72px !important;
+      border-radius: 50% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-size: 1.5rem !important;
+      font-weight: 700 !important;
+      color: #F5F5F7 !important;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.05)) !important;
+      border: 2px solid transparent !important;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5) !important;
+      position: relative !important;
+      z-index: 1 !important;
+    }
+    .profile-avatar img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      border-radius: 50% !important;
+    }
+    
+    /* Stronger glass profile card */
+    .profile-header {
+      background: rgba(255,255,255,0.08) !important;
+      backdrop-filter: blur(40px) !important;
+      -webkit-backdrop-filter: blur(40px) !important;
+      border: 1px solid rgba(255,255,255,0.12) !important;
+      border-radius: 28px !important;
+      padding: 24px 18px !important;
+      margin: 16px 0 !important;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.6) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 16px !important;
+    }
+    .profile-avatar {
+      width: 76px !important;
+      height: 76px !important;
+      border-radius: 50% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-size: 1.5rem !important;
+      font-weight: 700 !important;
+      color: #F5F5F7 !important;
+      background: linear-gradient(135deg, rgba(255,255,255,0.35), rgba(255,255,255,0.10)) !important;
+      border: 2px solid transparent !important;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.6) !important;
+      position: relative !important;
+      z-index: 1 !important;
+    }
+    .profile-avatar img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      border-radius: 50% !important;
+    }
+    
+    /* Profile card with background image */
+    .profile-header {
+      background: linear-gradient(135deg, rgba(0,0,0,0.85), rgba(20,20,20,0.65)), url('https://images.unsplash.com/photo-1508672019048-805c876b67e2?auto=format&fit=crop&w=600&q=80') !important;
+      background-size: cover !important;
+      background-position: center !important;
+      border-radius: 28px !important;
+      border: 1px solid rgba(255,255,255,0.08) !important;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.6) !important;
+      padding: 24px 18px !important;
+      margin: 16px 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 16px !important;
+    }
+    .profile-avatar {
+      width: 76px !important;
+      height: 76px !important;
+      border-radius: 50% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-size: 1.5rem !important;
+      font-weight: 700 !important;
+      color: #F5F5F7 !important;
+      background: rgba(255,255,255,0.15) !important;
+      border: 2px solid rgba(255,255,255,0.3) !important;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5) !important;
+    }
+    .profile-avatar img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      border-radius: 50% !important;
+    }
+    
+    /* Profile card with meme background */
+    :root {
+      --profile-bg-url: url('https://i.guim.co.uk/img/media/327e46c3ab049358fad80575146be9e0e65686e7/0_0_1023_742/master/1023.jpg?width=465&dpr=1&s=none&crop=none'); /* Replace with your Pepe image URL */
+    }
+    .profile-header {
+      background: linear-gradient(135deg, rgba(0,0,0,0.82), rgba(20,20,20,0.6)), var(--profile-bg-url) !important;
+      background-size: cover !important;
+      background-position: center !important;
+      border-radius: 28px !important;
+      border: 1px solid rgba(255,255,255,0.08) !important;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.6) !important;
+      padding: 24px 18px !important;
+      margin: 16px 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 16px !important;
+    }
+    .profile-avatar {
+      width: 76px !important;
+      height: 76px !important;
+      border-radius: 50% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-size: 1.5rem !important;
+      font-weight: 700 !important;
+      color: #F5F5F7 !important;
+      background: rgba(255,255,255,0.15) !important;
+      border: 2px solid rgba(255,255,255,0.3) !important;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5) !important;
+    }
+    .profile-avatar img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      border-radius: 50% !important;
+    }
+    
+    /* Reduce profile card shadow */
+    .profile-header {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+    }
+    
+    /* Full-bleed profile grid with no gaps */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px !important;
+      margin: 0 -16px !important;
+      width: auto;
+    }
+    .grid-item {
+      aspect-ratio: 1 !important;
+      border-radius: 0 !important;
+      margin: 0 !important;
+    }
+    .grid-item img,
+    .grid-item video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    
+    /* Stretch only the dividers full width */
+    .profile-divider,
+    .profile-subdivider {
+      margin-left: -16px !important;
+      margin-right: -16px !important;
+      width: auto !important;
+    }
+    
+    /* Stretch top header full width */
+    .app-header {
+      margin-left: -16px !important;
+      margin-right: -16px !important;
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+    }
+    </style>
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <a href="index.html" style="color:#F5F5F7; text-decoration:none;">←</a>
+      <div class="heading">Profile</div>
+    </header>
+
+    <div id="user-container"></div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+  <script type="module" src="/src/authGuard.ts"></script>
+  <script type="module" src="/src/user.ts"></script>
+</body>
+</html>

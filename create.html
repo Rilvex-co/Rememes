@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Rememes - Create</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #000;
+      color: #F5F5F7;
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+    .camera-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    video#camera-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scaleX(-1); /* mirror default for front camera */
+    }
+    .top-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(rgba(0,0,0,0.5), transparent);
+    }
+    #back-btn {
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: #FFF;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    #caption {
+      flex: 1;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 20px;
+      color: #FFF;
+      font-size: 1rem;
+      outline: none;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    #caption::placeholder { color: rgba(255,255,255,0.6); }
+    .right-controls {
+      position: absolute;
+      top: 50%;
+      right: 12px;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      z-index: 2;
+    }
+    .control-icon {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #FFF;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .capture-btn {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      border: 4px solid #FFF;
+      cursor: pointer;
+      z-index: 3;
+    }
+    .preview-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0A0A0B;
+      z-index: 10;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .preview-overlay.hidden { display: none !important; }
+    .preview-media {
+      width: 100%;
+      max-height: 60vh;
+      background: #111113;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .preview-media img, .preview-media video {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+    }
+    .crop-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: #111113;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 12px;
+      touch-action: none;
+    }
+    .crop-container img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      user-select: none;
+      pointer-events: none;
+    }
+    .crop-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 80%;
+      height: 80%;
+      transform: translate(-50%, -50%);
+      border: 2px dashed #C7C7CC;
+      pointer-events: none;
+    }
+    .crop-controls { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .crop-controls input[type="range"] { flex: 1; }
+    .btn-primary {
+      padding: 12px;
+      border-radius: 10px;
+      background: #FFFFFF;
+      color: #000;
+      border: none;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .btn-secondary {
+      padding: 10px;
+      border-radius: 10px;
+      background: #1A1A1D;
+      color: #F5F5F7;
+      border: 1px solid #2B2B30;
+      cursor: pointer;
+    }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="camera-container" id="camera-container">
+    <video id="camera-video" autoplay playsinline muted></video>
+    <div class="top-overlay">
+      <button id="back-btn">←</button>
+      <input type="text" id="caption" placeholder="Add caption..." />
+    </div>
+    <div class="right-controls">
+      <button class="control-icon" id="upload-btn">📁</button>
+      <button class="control-icon" id="edit-btn">✏️</button>
+      <button class="control-icon" id="text-btn">T</button>
+      <button class="control-icon" id="flip-btn">🔄</button>
+    </div>
+    <button class="capture-btn" id="capture-btn"></button>
+  </div>
+
+  <input type="file" id="media-file" accept="image/*,video/*" class="hidden" />
+
+  <div class="preview-overlay hidden" id="preview-overlay">
+    <div class="preview-media" id="preview-media">
+      <img id="preview-img" src="" alt="Preview" class="hidden" />
+      <video id="preview-video" controls class="hidden"></video>
+    </div>
+
+    <div id="crop-section" class="hidden">
+      <div class="crop-container" id="crop-container">
+        <img id="crop-image" src="" alt="crop" />
+        <div class="crop-overlay"></div>
+      </div>
+      <div class="crop-controls">
+        <span style="color:#9E9EA3; font-size:0.8rem;">Zoom</span>
+        <input type="range" id="zoom-slider" min="1" max="3" step="0.01" value="1" />
+      </div>
+      <button id="apply-crop-btn" class="btn-primary" type="button">Apply Crop</button>
+    </div>
+
+    <button class="btn-primary" id="publish-btn">Publish Meme</button>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+  <script type="module" src="/src/authGuard.ts"></script>
+  <script type="module" src="/src/create.ts"></script>
+</body>
+</html>

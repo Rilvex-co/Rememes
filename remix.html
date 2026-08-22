@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Rememes - Remix</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { background: #0A0A0B; color: #F5F5F7; font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 70px; }
+    .app-container { max-width: 480px; margin: 0 auto; padding: 0 16px; }
+    .app-header { position: sticky; top: 0; background: rgba(10,10,11,0.95); border-bottom: 1px solid #2B2B30; padding: 12px 0; z-index: 10; display: flex; align-items: center; gap: 12px; }
+    .heading { font-size: 1.5rem; font-weight: 700; }
+    .editor-media { width: 100%; background: #111113; border: 1px solid #2B2B30; border-radius: 14px; overflow: hidden; margin: 16px 0; position: relative; }
+    .editor-media img, .editor-media video { width: 100%; display: block; }
+    .text-overlay {
+      position: absolute;
+      color: white;
+      font-weight: 800;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+      white-space: pre-wrap;
+      pointer-events: none;
+    }
+    .form-group { margin: 16px 0; }
+    label { display: block; font-size: 0.75rem; font-weight: 600; margin-bottom: 6px; color: #C7C7CC; }
+    textarea { width: 100%; padding: 10px 12px; background: #1A1A1D; border: 1px solid #2B2B30; border-radius: 8px; color: #F5F5F7; font-size: 0.875rem; }
+    .filter-buttons { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    .filter-btn { background: #1A1A1D; border: 1px solid #2B2B30; color: #C7C7CC; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 0.75rem; }
+    .filter-btn.active { background: #FFF; color: #000; border-color: #FFF; }
+    .btn-primary { width: 100%; padding: 12px; background: #FFFFFF; color: #000; border: none; border-radius: 8px; font-weight: 600; font-size: 0.875rem; cursor: pointer; }
+    .text-input-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #111113;
+      border-top: 1px solid #2B2B30;
+      padding: 12px;
+      display: flex;
+      gap: 8px;
+      z-index: 9999;
+      transform: translateY(100%);
+      transition: transform 0.3s;
+    }
+    .text-input-container.active { transform: translateY(0); }
+    .text-input-container input {
+      flex: 1;
+      padding: 10px 12px;
+      background: #1A1A1D;
+      border: 1px solid #2B2B30;
+      border-radius: 8px;
+      color: #F5F5F7;
+      font-size: 0.875rem;
+    }
+    .text-input-container button {
+      background: #FFFFFF;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <a href="index.html" style="color:#F5F5F7; text-decoration:none;">←</a>
+      <div class="heading">Remix</div>
+    </header>
+
+    <div id="editor-container"></div>
+  </div>
+
+  <div class="text-input-container" id="text-input-container">
+    <input type="text" id="floating-text-input" placeholder="Type text..." />
+    <button id="add-text-btn">Add</button>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+  <script type="module" src="/src/authGuard.ts"></script>
+  <script type="module" src="/src/remix.ts"></script>
+</body>
+</html>

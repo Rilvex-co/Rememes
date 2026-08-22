@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Rememes Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { background: #0A0A0B; color: #F5F5F7; font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 70px; }
+    .app-container { max-width: 600px; margin: 0 auto; padding: 0 16px; }
+    .app-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid #2B2B30; }
+    .heading { font-size: 1.5rem; font-weight: 700; }
+    .admin-nav { display: flex; gap: 8px; margin: 16px 0; flex-wrap: wrap; }
+    .admin-nav button { background: #1A1A1D; border: 1px solid #2B2B30; color: #C7C7CC; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 0.875rem; font-weight: 500; }
+    .admin-nav button.active { background: #FFFFFF; color: #000; border-color: #FFFFFF; }
+    .card { background: #111113; border: 1px solid #2B2B30; border-radius: 14px; padding: 16px; margin-bottom: 12px; }
+    .card-title { font-weight: 600; margin-bottom: 12px; }
+    .user-row, .report-row, .content-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid #2B2B30; }
+    .user-row:last-child, .report-row:last-child, .content-row:last-child { border-bottom: none; }
+    .user-info { display: flex; flex-direction: column; }
+    .user-name { font-weight: 600; }
+    .user-email { font-size: 0.7rem; color: #6E6E73; }
+    .action-btn { background: none; border: 1px solid #2B2B30; color: #F5F5F7; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; }
+    .action-btn.danger { color: #FF453A; border-color: #FF453A; }
+    .action-btn.success { color: #30D158; border-color: #30D158; }
+    .loading { text-align: center; padding: 40px 0; color: #9E9EA3; }
+    .metric-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .metric-card { background: #1A1A1D; border-radius: 10px; padding: 16px; text-align: center; }
+    .metric-value { font-size: 2rem; font-weight: 700; }
+    .metric-label { font-size: 0.75rem; color: #9E9EA3; margin-top: 4px; }
+    input[type="text"] { width: 100%; padding: 10px; background: #1A1A1D; border: 1px solid #2B2B30; border-radius: 8px; color: #F5F5F7; font-size: 0.875rem; }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="heading">Admin Dashboard</div>
+      <a href="index.html" style="color:#F5F5F7; text-decoration:none;">← Home</a>
+    </header>
+
+    <div class="admin-nav">
+      <button class="active" data-tab="users">Users</button>
+      <button data-tab="reports">Reports</button>
+      <button data-tab="content">Content</button>
+      <button data-tab="metrics">Metrics</button>
+    </div>
+
+    <div id="admin-container"></div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+  <script type="module" src="/src/adminGuard.ts"></script>
+  <script type="module" src="/src/admin.ts"></script>
+</body>
+</html>

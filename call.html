@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Rememes - Call</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { background: #0A0A0B; color: #F5F5F7; font-family: 'Inter', sans-serif; margin: 0; height: 100vh; display: flex; flex-direction: column; }
+    .call-header { display: flex; align-items: center; justify-content: space-between; padding: 16px; border-bottom: 1px solid #2B2B30; }
+    .heading { font-size: 1.25rem; font-weight: 700; }
+    .call-body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 16px; }
+    video { width: 100%; max-width: 480px; background: #111113; border-radius: 14px; border: 1px solid #2B2B30; aspect-ratio: 16/9; object-fit: cover; }
+    .remote-video { width: 100%; max-width: 480px; }
+    .local-video { width: 120px; position: fixed; bottom: 20px; right: 20px; z-index: 100; border-radius: 14px; }
+    .call-controls { display: flex; gap: 20px; padding: 20px; border-top: 1px solid #2B2B30; }
+    .control-btn { background: #1A1A1D; border: 1px solid #2B2B30; color: #F5F5F7; border-radius: 50%; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 24px; }
+    .control-btn.hangup { background: #FF453A; color: #fff; }
+  </style>
+</head>
+<body>
+  <div class="call-header">
+    <div class="heading">Call</div>
+    <a href="index.html" style="color:#F5F5F7; text-decoration:none;">✕</a>
+  </div>
+  <div class="call-body">
+    <video id="remote-video" class="remote-video" autoplay playsinline></video>
+    <video id="local-video" class="local-video" autoplay playsinline muted></video>
+  </div>
+  <div class="call-controls">
+    <button class="control-btn" id="mute-btn">🎙️</button>
+    <button class="control-btn hangup" id="hangup-btn">📵</button>
+    <button class="control-btn" id="camera-btn">📷</button>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+  <script type="module" src="/src/call.ts"></script>
+</body>
+</html>

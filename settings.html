@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Rememes - Settings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { background: #0A0A0B; color: #F5F5F7; font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 70px; }
+    .app-container { max-width: 480px; margin: 0 auto; padding: 0 16px; }
+    .app-header { position: sticky; top: 0; background: rgba(10,10,11,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid #2B2B30; padding: 12px 0; z-index: 10; display: flex; align-items: center; gap: 12px; }
+    .heading { font-size: 1.5rem; font-weight: 700; }
+    .settings-card { background: #111113; border: 1px solid #2B2B30; border-radius: 14px; margin-top: 16px; padding: 16px; }
+    .setting-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #2B2B30; }
+    .setting-row:last-child { border-bottom: none; }
+    .setting-label { font-weight: 500; }
+    .theme-options { display: flex; gap: 8px; }
+    .theme-option { padding: 8px 16px; border-radius: 8px; background: #1A1A1D; border: 1px solid #2B2B30; color: #C7C7CC; cursor: pointer; font-size: 0.85rem; }
+    .theme-option.active { background: #FFFFFF; color: #000; border-color: #FFFFFF; }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <a href="profile.html" style="color:#F5F5F7; text-decoration:none;">←</a>
+      <div class="heading">Settings</div>
+    </header>
+
+    <div class="settings-card">
+      <div class="setting-row">
+        <span class="setting-label">Appearance</span>
+        <div class="theme-options">
+          <button class="theme-option" data-theme="dark">Dark</button>
+          <button class="theme-option" data-theme="light">Light</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+  <script type="module" src="/src/authGuard.ts"></script>
+  <script type="module" src="/src/settings.ts"></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Rememes - Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; background: #0A0A0B; color: #F5F5F7; font-family: 'Inter', sans-serif; }
+    .auth-container { width: 100%; max-width: 360px; padding: 20px; }
+    .auth-box { background: #111113; border: 1px solid #2B2B30; border-radius: 14px; padding: 24px; }
+    .auth-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+    .auth-subtitle { font-size: 0.875rem; color: #9E9EA3; margin-bottom: 24px; }
+    .form-group { margin-bottom: 16px; }
+    label { display: block; font-size: 0.75rem; font-weight: 600; margin-bottom: 6px; color: #C7C7CC; }
+    input { width: 100%; padding: 10px 12px; background: #1A1A1D; border: 1px solid #2B2B30; border-radius: 8px; color: #F5F5F7; font-size: 0.875rem; outline: none; }
+    input:focus { border-color: #C7C7CC; }
+    .btn-primary { width: 100%; padding: 12px; background: #FFFFFF; color: #000; border: none; border-radius: 8px; font-weight: 600; font-size: 0.875rem; cursor: pointer; }
+    .btn-primary:hover { background: #E5E5E7; }
+    .auth-footer { text-align: center; margin-top: 16px; font-size: 0.75rem; color: #9E9EA3; }
+    .auth-footer a { color: #F5F5F7; text-decoration: underline; }
+    .error-message { color: #FF453A; font-size: 0.75rem; margin-top: 8px; display: none; }
+  </style>
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-box">
+      <div class="auth-title">Welcome back</div>
+      <div class="auth-subtitle">Login to rememes</div>
+      <form id="login-form" method="post">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required />
+        </div>
+        <button type="submit" class="btn-primary">Login</button>
+        <div class="error-message" id="error-message"></div>
+      </form>
+      <div class="auth-footer">
+        Don't have an account? <a href="/signup.html">Sign up</a>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+  <script type="module" src="/src/login.ts"></script>
+</body>
+</html>
