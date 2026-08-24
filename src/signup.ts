@@ -1,5 +1,6 @@
 import { supabase } from './lib/supabase.ts';
 import { signUp } from './lib/auth.ts';
+import { registerPushNotifications } from './pushNotifications.ts';
 
 const step1 = document.getElementById('step-1') as HTMLElement;
 const step2 = document.getElementById('step-2') as HTMLElement;
@@ -61,6 +62,7 @@ document.getElementById('create-account')?.addEventListener('click', async () =>
 
   try {
     await signUp(email, password, username);
+    registerPushNotifications().catch(console.error);
     // Redirect to onboarding to follow people
     window.location.href = 'onboarding.html';
   } catch (error: any) {
