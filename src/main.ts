@@ -1,5 +1,6 @@
 import './styles/main.css';
 import { supabase } from './lib/supabase.ts';
+import { registerPushNotifications } from './pushNotifications.ts';
 import { getCurrentUser } from './lib/auth.ts';
 
 function showError(msg: string) {
@@ -137,6 +138,7 @@ async function initGlobal() {
   if (!user) return;
 
   await initHeader(user);
+  registerPushNotifications().catch(console.error);
 
   // Redirect to onboarding if not seen
   const onboardingSeen = localStorage.getItem('rememes-onboarding-seen');
