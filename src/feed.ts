@@ -1,6 +1,7 @@
 import { supabase } from './lib/supabase.ts';
 import { getCurrentUser } from './lib/auth.ts';
 import { generateShareCard } from './shareCard.ts';
+import { sendPush } from './lib/push.ts';
 
 const feedContainer = document.getElementById('feed-container') as HTMLElement;
 
@@ -140,6 +141,7 @@ async function toggleLike(postId: string, button: HTMLElement) {
         type: 'like',
         reference_id: postId,
       });
+      sendPush(postData.user_id, 'like');
     }
 
     const newCount = currentCount + 1;

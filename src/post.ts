@@ -1,5 +1,6 @@
 import { supabase } from './lib/supabase.ts';
 import { getCurrentUser } from './lib/auth.ts';
+import { sendPush } from './lib/push.ts';
 
 const postContainer = document.getElementById('post-container') as HTMLElement | null;
 const commentsContainer = document.getElementById('comments-container') as HTMLElement | null;
@@ -53,6 +54,7 @@ if (!postContainer || !commentsContainer || !commentForm || !commentInput) {
         type: 'comment',
         reference_id: postId,
       });
+      sendPush(postData.user_id, 'comment');
     }
 
     commentInput.value = '';
