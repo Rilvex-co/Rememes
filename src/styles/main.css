@@ -729,3 +729,117 @@ html {
 .theme-option {
   font-size: 0.75rem !important;
 }
+
+/* ================= UI POLISH ================= */
+
+/* Consistent border radius */
+.post-card,
+.battle-card,
+.settings-card,
+.auth-box,
+.profile-header,
+.comment-item,
+.notification-item,
+.search-input,
+.filter-chip,
+.action-button,
+.btn-primary,
+.btn-secondary,
+.theme-option,
+.setting-row,
+.badge-chip,
+.template-item {
+  border-radius: 12px !important;
+}
+
+/* Subtle shadows for cards */
+.post-card,
+.battle-card,
+.settings-card,
+.auth-box,
+.profile-header {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Better action button hover */
+.action-button:hover {
+  background: #1F1F24 !important;
+  transition: background 0.15s ease;
+}
+
+/* Filter chips */
+.filter-chip {
+  padding: 6px 14px !important;
+  font-size: 0.8rem !important;
+  border: 1px solid #2B2B30;
+  transition: all 0.2s ease;
+}
+.filter-chip.active {
+  background: #FFFFFF !important;
+  color: #000 !important;
+  border-color: #FFFFFF !important;
+}
+
+/* Profile meta spacing */
+.profile-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.meta-item {
+  flex: 1;
+  text-align: center;
+}
+.meta-value {
+  font-size: 1rem !important;
+}
+.meta-label {
+  font-size: 0.65rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Auth screens */
+.auth-box {
+  padding: 32px 24px !important;
+}
+.auth-box input {
+  padding: 12px 14px !important;
+  font-size: 0.9rem !important;
+}
+.btn-primary {
+  padding: 12px !important;
+  font-weight: 600;
+}
+
+/* Search input */
+.search-input {
+  padding: 14px 16px !important;
+  font-size: 0.95rem !important;
+}
+
+/* Notification items */
+.notification-item {
+  padding: 12px 0 !important;
+  border-bottom: 1px solid #2B2B30 !important;
+}
+
+/* Settings */
+.setting-row {
+  padding: 14px 0 !important;
+}
+
+/* Light theme adjustments */
+body.light .post-card,
+body.light .battle-card,
+body.light .settings-card,
+body.light .auth-box,
+body.light .profile-header {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+body.light .action-button:hover {
+  background: #F0F0F2 !important;
+}
+body.light .filter-chip {
+  border-color: #D1D1D6;
+}
