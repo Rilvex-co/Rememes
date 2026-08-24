@@ -4,3 +4,6 @@ dist
 .DS_Store
 *.log
 .vercel
+service.json
+serviceAccountKey.json
+rememes-66a92-*.json
