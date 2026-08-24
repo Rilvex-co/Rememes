@@ -19,7 +19,7 @@ let selectedFile: File | null = null;
 let croppedFile: File | null = null;
 let currentX = 0, currentY = 0, currentZoom = 1;
 let isDragging = false, startX = 0, startY = 0, startTx = 0, startTy = 0;
-let facingMode = 'user'; // 'user' (front) or 'environment' (back)
+let facingMode = 'user';
 let stream: MediaStream | null = null;
 
 async function startCamera() {
@@ -27,39 +27,33 @@ async function startCamera() {
     stream = await navigator.mediaDevices.getUserMedia({
       video: {
         facingMode: facingMode,
-        width: { ideal: 3840 },
-        height: { ideal: 2160 },
-        frameRate: { ideal: 60, max: 60 },
-        focusMode: 'continuous',
+        width: { ideal: 1280 },
+        height: { ideal: 720 },
+        frameRate: { ideal: 30 },
       },
+      audio: false,
     });
     video.srcObject = stream;
     video.style.transform = facingMode === 'user' ? 'scaleX(-1)' : 'scaleX(1)';
-  } catch (err: any) {
+    cameraContainer.style.display = 'block';
+  } catch (err) {
     console.warn('Camera unavailable:', err);
     cameraContainer.style.display = 'none';
     const fallback = document.getElementById('camera-fallback');
     if (fallback) {
       fallback.classList.remove('hidden');
-      const p = fallback.querySelector('p');
-      if (p) p.textContent = 'Camera unavailable: ' + (err?.message || 'unknown error');
+      fallback.style.display = 'flex';
     }
   }
 }
 
 startCamera();
 
-document.getElementById('upload-fallback-btn')?.addEventListener('click', () => fileInput.click());
-
-document.getElementById('back-btn')?.addEventListener('click', () => {
-  window.location.href = 'index.html';
-});
+document.getElementById('back-btn')?.addEventListener('click', () => window.location.href = 'index.html');
 
 document.getElementById('flip-btn')?.addEventListener('click', async () => {
   facingMode = facingMode === 'user' ? 'environment' : 'user';
-  if (stream) {
-    stream.getTracks().forEach(track => track.stop());
-  }
+  if (stream) stream.getTracks().forEach(track => track.stop());
   await startCamera();
 });
 
@@ -71,16 +65,16 @@ document.getElementById('capture-btn')?.addEventListener('click', () => {
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
 
-  // Capture normally; mirror if front camera
-  ctx.translate(canvas.width, 0);
-  ctx.scale(-1, 1);
+  if (facingMode === 'user') {
+    ctx.translate(canvas.width, 0);
+    ctx.scale(-1, 1);
+  }
   ctx.drawImage(video, 0, 0);
 
   canvas.toBlob((blob) => {
     if (blob) {
       const file = new File([blob], 'snap.jpg', { type: 'image/jpeg' });
       handleFile(file);
-      // Stop camera and hide
       stream?.getTracks().forEach(track => track.stop());
       video.srcObject = null;
       cameraContainer.style.display = 'none';
@@ -89,14 +83,7 @@ document.getElementById('capture-btn')?.addEventListener('click', () => {
 });
 
 document.getElementById('upload-btn')?.addEventListener('click', () => fileInput.click());
-document.getElementById('edit-btn')?.addEventListener('click', () => {
-  // For now, edit button just opens file picker (or can later open editing tools)
-  fileInput.click();
-});
-document.getElementById('text-btn')?.addEventListener('click', () => {
-  // Placeholder for text overlay functionality
-  alert('Text overlay coming soon');
-});
+document.getElementById('upload-fallback-btn')?.addEventListener('click', () => fileInput.click());
 
 fileInput.addEventListener('change', (e) => {
   const file = (e.target as HTMLInputElement).files?.[0];
@@ -169,6 +156,39 @@ applyCropBtn.addEventListener('click', async () => {
   }
 });
 
+async function saveHashtags(postId: string, caption: string) {
+  const hashtagRegex = /#[\w]+/g;
+  const matches = caption.match(hashtagRegex);
+  if (!matches) return;
+
+  for (const tag of matches) {
+    const name = tag.slice(1).toLowerCase(); // remove # and lower
+    // Insert or get hashtag
+    const { data: existingTag } = await supabase
+      .from('hashtags')
+      .select('id')
+      .eq('name', name)
+      .maybeSingle();
+
+    let hashtagId = existingTag?.id;
+    if (!hashtagId) {
+      const { data: newTag, error: tagInsertError } = await supabase
+        .from('hashtags')
+        .insert({ name })
+        .select('id')
+        .single();
+      if (tagInsertError) continue;
+      hashtagId = newTag.id;
+    }
+
+    // Link post to hashtag
+    await supabase.from('post_hashtags').insert({
+      post_id: postId,
+      hashtag_id: hashtagId,
+    }).select().single();
+  }
+}
+
 publishBtn.addEventListener('click', async () => {
   const fileToUpload = croppedFile || selectedFile;
   if (!fileToUpload) {
@@ -197,7 +217,6 @@ publishBtn.addEventListener('click', async () => {
     const { data: publicUrlData } = supabase.storage
       .from('post-media')
       .getPublicUrl(fileName);
-
     const mediaUrl = publicUrlData.publicUrl;
 
     const { error: insertError } = await supabase
@@ -212,6 +231,8 @@ publishBtn.addEventListener('click', async () => {
 
     if (insertError) throw insertError;
 
+    // Save hashtags
+    await saveHashtags(newPost.id, captionInput.value.trim());
     alert('Post published!');
     window.location.href = 'index.html';
   } catch (error: any) {

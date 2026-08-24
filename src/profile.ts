@@ -20,7 +20,7 @@ async function loadProfile() {
 
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
-    .select('*')
+    .select('*, role')
     .eq('id', user.id)
     .single();
 
@@ -51,6 +51,7 @@ async function loadProfile() {
   const badges = streakData?.badges || [];
 
   const remixCount = profile.remix_count || 0;
+  const role = profile.role || 'user';
   const xp = profile.xp || 0;
   const level = profile.level || 1;
   const battleWins = profile.battle_wins || 0;
@@ -69,7 +70,7 @@ async function loadProfile() {
       const media = post.type === 'image'
         ? `<img src="${post.media_url}" alt="post" loading="lazy" />`
         : `<video src="${post.media_url}" muted></video>`;
-      return `<div class="grid-item">${media}</div>`;
+      return `<a href="post.html?id=${post.id}" class="grid-item" style="text-decoration:none; color:inherit;">${media}</a>`;
     }).join('');
   } else {
     postsGridHtml = '<p class="empty-state">No posts yet.</p>';
@@ -116,6 +117,7 @@ async function loadProfile() {
       </div>
       ${badgesHtml}
       ${restoreButtonHtml}
+      ${role === 'admin' ? `<a href="admin.html" style="display:inline-block; margin-top:12px; padding:10px 20px; background:#FFD60A; color:#000; border-radius:10px; font-weight:600; text-decoration:none;">Admin Dashboard</a>` : ''}
     </div>
 
     <hr class="profile-divider" />

@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.rememes.app',
+  appId: 'com.example.rememes',
   appName: 'Rememes',
   webDir: 'dist',
   bundledWebRuntime: false

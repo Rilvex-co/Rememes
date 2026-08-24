@@ -6,47 +6,206 @@
   <title>Rememes - Sign Up</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    body { display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; background: #0A0A0B; color: #F5F5F7; font-family: 'Inter', sans-serif; }
-    .auth-container { width: 100%; max-width: 360px; padding: 20px; }
-    .auth-box { background: #111113; border: 1px solid #2B2B30; border-radius: 14px; padding: 24px; }
-    .auth-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
-    .auth-subtitle { font-size: 0.875rem; color: #9E9EA3; margin-bottom: 24px; }
-    .form-group { margin-bottom: 16px; }
-    label { display: block; font-size: 0.75rem; font-weight: 600; margin-bottom: 6px; color: #C7C7CC; }
-    input { width: 100%; padding: 10px 12px; background: #1A1A1D; border: 1px solid #2B2B30; border-radius: 8px; color: #F5F5F7; font-size: 0.875rem; outline: none; }
-    input:focus { border-color: #C7C7CC; }
-    .btn-primary { width: 100%; padding: 12px; background: #FFFFFF; color: #000; border: none; border-radius: 8px; font-weight: 600; font-size: 0.875rem; cursor: pointer; }
-    .btn-primary:hover { background: #E5E5E7; }
-    .auth-footer { text-align: center; margin-top: 16px; font-size: 0.75rem; color: #9E9EA3; }
-    .auth-footer a { color: #F5F5F7; text-decoration: underline; }
-    .error-message { color: #FF453A; font-size: 0.75rem; margin-top: 8px; display: none; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0A0A0B;
+      color: #F5F5F7;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+    .signup-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: url('https://i.guim.co.uk/img/media/327e46c3ab049358fad80575146be9e0e65686e7/0_0_1023_742/master/1023.jpg?width=465&dpr=1&s=none&crop=none') center/cover no-repeat;
+    }
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(10,10,11,0.7);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .steps-container {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .step {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 400px;
+      animation: fadeIn 0.3s ease;
+    }
+    .step.active {
+      display: flex;
+    }
+    .step-card {
+      background: rgba(20,20,25,0.9);
+      border: 1px solid #2B2B30;
+      border-radius: 28px;
+      padding: 32px 24px;
+      width: 100%;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    }
+    .step-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .step-subtitle {
+      color: #9E9EA3;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .input-group {
+      margin-bottom: 16px;
+    }
+    .input-group label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #C7C7CC;
+    }
+    .input-group input {
+      width: 100%;
+      padding: 12px 14px;
+      background: #1A1A1D;
+      border: 1px solid #2B2B30;
+      border-radius: 12px;
+      color: #F5F5F7;
+      font-size: 0.9rem;
+      outline: none;
+    }
+    .input-group input:focus { border-color: #C7C7CC; }
+    .btn-primary {
+      background: #FFFFFF;
+      color: #000;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 30px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 8px;
+      transition: transform 0.2s;
+    }
+    .btn-primary:active { transform: scale(0.97); }
+    .btn-secondary {
+      background: transparent;
+      color: #9E9EA3;
+      border: none;
+      padding: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      text-align: center;
+    }
+    .error-message {
+      color: #FF453A;
+      font-size: 0.8rem;
+      margin-top: 8px;
+      text-align: center;
+      display: none;
+    }
+    .progress-dots {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .progress-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #2B2B30;
+    }
+    .progress-dot.active {
+      background: #FFFFFF;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
-  <div class="auth-container">
-    <div class="auth-box">
-      <div class="auth-title">Create account</div>
-      <div class="auth-subtitle">Join rememes</div>
-      <form id="signup-form" method="post">
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input type="text" id="username" name="username" required />
+  <div class="signup-container">
+    <div class="overlay"></div>
+    <div class="steps-container">
+      <!-- Step 1: Username -->
+      <div class="step active" id="step-1">
+        <div class="step-card">
+          <div class="progress-dots">
+            <span class="progress-dot active"></span>
+            <span class="progress-dot"></span>
+            <span class="progress-dot"></span>
+          </div>
+          <div class="step-title">Choose your username</div>
+          <div class="step-subtitle">This is how people will find you.</div>
+          <div class="input-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" placeholder="e.g., meme_king" autocomplete="off" />
+          </div>
+          <button class="btn-primary" id="next-1">Continue</button>
         </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required />
+      </div>
+
+      <!-- Step 2: Email -->
+      <div class="step" id="step-2">
+        <div class="step-card">
+          <div class="progress-dots">
+            <span class="progress-dot"></span>
+            <span class="progress-dot active"></span>
+            <span class="progress-dot"></span>
+          </div>
+          <div class="step-title">What's your email?</div>
+          <div class="step-subtitle">We'll use this for login and notifications.</div>
+          <div class="input-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="you@example.com" autocomplete="off" />
+          </div>
+          <button class="btn-primary" id="next-2">Continue</button>
+          <button class="btn-secondary" id="back-2">Back</button>
         </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" required minlength="6" />
+      </div>
+
+      <!-- Step 3: Password -->
+      <div class="step" id="step-3">
+        <div class="step-card">
+          <div class="progress-dots">
+            <span class="progress-dot"></span>
+            <span class="progress-dot"></span>
+            <span class="progress-dot active"></span>
+          </div>
+          <div class="step-title">Create a password</div>
+          <div class="step-subtitle">Use at least 6 characters.</div>
+          <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="••••••••" />
+          </div>
+          <div class="input-group">
+            <label for="confirm-password">Confirm Password</label>
+            <input type="password" id="confirm-password" placeholder="••••••••" />
+          </div>
+          <button class="btn-primary" id="create-account">Create Account</button>
+          <button class="btn-secondary" id="back-3">Back</button>
+          <div class="error-message" id="error-message"></div>
         </div>
-        <button type="submit" class="btn-primary">Sign Up</button>
-        <div class="error-message" id="error-message"></div>
-      </form>
-      <div class="auth-footer">
-        Already have an account? <a href="/login.html">Login</a>
       </div>
     </div>
   </div>

@@ -57,7 +57,7 @@ async function fetchPosts() {
               <span class="post-author">${username}</span>
               <span class="post-meta">${timeAgo}</span>
             </div>
-            <p class="post-caption">${escapeHtml(post.caption || '')}</p>
+            <p class="post-caption">${formatCaption(post.caption || '')}</p>
             <div class="post-media">
               ${post.type === 'image'
                 ? `<img src="${post.media_url}" alt="meme" loading="lazy" />`
@@ -202,6 +202,16 @@ function timeSince(date: Date): string {
   interval = Math.floor(seconds / 60);
   if (interval >= 1) return interval + 'm';
   return Math.floor(seconds) + 's';
+}
+
+
+function formatCaption(caption: string): string {
+  if (!caption) return '';
+  const hashtagRegex = /#[\w]+/g;
+  return caption.replace(hashtagRegex, (match) => {
+    const tag = match.slice(1);
+    return `<a href="search.html?q=${encodeURIComponent('#' + tag)}" style="color:#C7C7CC; text-decoration:none;">${match}</a>`;
+  });
 }
 
 function escapeHtml(text: string): string {

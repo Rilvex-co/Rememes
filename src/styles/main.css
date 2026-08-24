@@ -843,3 +843,61 @@ body.light .action-button:hover {
 body.light .filter-chip {
   border-color: #D1D1D6;
 }
+
+
+/* ================= REMOVE TAP/FOCUS HIGHLIGHT ================= */
+* {
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-focus-ring-color: transparent !important;
+  outline: none !important;
+}
+
+button,
+a,
+input,
+textarea,
+select,
+[role="button"],
+.clickable,
+.filter-chip,
+.action-button {
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+textarea, input {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+
+/* Force remove tap and focus highlight */
+* {
+  -webkit-tap-highlight-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+button:focus,
+a:focus,
+input:focus,
+textarea:focus,
+select:focus,
+[role="button"]:focus,
+.filter-chip:focus,
+.action-button:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+button:active,
+a:active,
+.filter-chip:active,
+.action-button:active {
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}

@@ -138,20 +138,12 @@ async function initGlobal() {
 
   await initHeader(user);
 
-  // Show onboarding if first visit
+  // Redirect to onboarding if not seen
   const onboardingSeen = localStorage.getItem('rememes-onboarding-seen');
-  if (!onboardingSeen) {
-    const overlay = document.getElementById('onboarding-overlay');
-    if (overlay) {
-      overlay.style.display = 'flex';
-      const closeBtn = document.getElementById('onboarding-close-btn');
-      if (closeBtn) {
-        closeBtn.addEventListener('click', () => {
-          localStorage.setItem('rememes-onboarding-seen', '1');
-          overlay.style.display = 'none';
-        });
-      }
-    }
+  const isOnboardingPage = window.location.pathname.includes('onboarding.html');
+  if (!onboardingSeen && !isOnboardingPage) {
+    window.location.href = 'onboarding.html';
+    return;
   }
   initSwipeNavigation();
 

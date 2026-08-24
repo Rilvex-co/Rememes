@@ -822,6 +822,35 @@ html body .app-container main#feed-container .post-card .post-connector .connect
   padding-left: 16px !important;
   padding-right: 16px !important;
 }
+
+/* Force remove tap and focus highlight */
+* {
+  -webkit-tap-highlight-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+button:focus,
+a:focus,
+input:focus,
+textarea:focus,
+select:focus,
+[role="button"]:focus,
+.filter-chip:focus,
+.action-button:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+button:active,
+a:active,
+.filter-chip:active,
+.action-button:active {
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
 </style>
 </head>
 <body>
@@ -871,13 +900,7 @@ html body .app-container main#feed-container .post-card .post-connector .connect
   </nav>
 
   
-  <div id="onboarding-overlay" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); z-index: 99998; display: none; align-items: center; justify-content: center; padding: 24px;">
-    <div style="background: #111113; border: 1px solid #2B2B30; border-radius: 20px; padding: 24px; max-width: 360px; width: 100%; text-align: center;">
-      <h2 style="font-size:1.25rem; font-weight:700; margin-bottom:12px;">Welcome to Rememes</h2>
-      <p style="color:#9E9EA3; font-size:0.9rem; line-height:1.5; margin-bottom:20px;">Discover memes, remix them in seconds, and build your reputation.</p>
-      <button id="onboarding-close-btn" style="background:#FFFFFF; color:#000; border:none; border-radius:10px; padding:10px 24px; font-weight:600; cursor:pointer;">Get Started</button>
-    </div>
-  </div>
+
 
   <script type="module" src="/src/main.ts"></script>
   <script type="module" src="/src/authGuard.ts"></script>

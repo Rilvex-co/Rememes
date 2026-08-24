@@ -11,7 +11,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background: #000;
-      color: #F5F5F7;
+      color: #FFF;
       font-family: 'Inter', sans-serif;
       overflow: hidden;
       height: 100vh;
@@ -29,21 +29,21 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transform: scaleX(-1); /* mirror default for front camera */
+      transform: scaleX(-1);
     }
     .top-overlay {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      padding: 16px;
+      padding: 16px 16px 0;
       display: flex;
       align-items: center;
       gap: 12px;
-      background: linear-gradient(rgba(0,0,0,0.5), transparent);
+      z-index: 2;
     }
     #back-btn {
-      background: rgba(255,255,255,0.15);
+      background: rgba(0,0,0,0.4);
       border: none;
       color: #FFF;
       width: 40px;
@@ -51,20 +51,9 @@
       border-radius: 50%;
       font-size: 1.5rem;
       cursor: pointer;
-    }
-    #caption {
-      flex: 1;
-      padding: 10px 14px;
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 20px;
-      color: #FFF;
-      font-size: 1rem;
-      outline: none;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
     }
-    #caption::placeholder { color: rgba(255,255,255,0.6); }
     .right-controls {
       position: absolute;
       top: 50%;
@@ -76,8 +65,8 @@
       z-index: 2;
     }
     .control-icon {
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(0,0,0,0.4);
+      border: none;
       color: #FFF;
       width: 44px;
       height: 44px;
@@ -87,18 +76,53 @@
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
     }
-    .capture-btn {
+    .bottom-bar {
       position: absolute;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 20px;
+      background: rgba(0,0,0,0.3);
+      z-index: 2;
+    }
+    .thumbnail-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.4);
+      cursor: pointer;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFF;
+      font-size: 1.5rem;
+    }
+    .capture-btn {
       width: 70px;
       height: 70px;
       border-radius: 50%;
       background: rgba(255,255,255,0.2);
       border: 4px solid #FFF;
       cursor: pointer;
-      z-index: 3;
+    }
+    .capture-btn:active { transform: scale(0.9); }
+    .flip-btn-bottom {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: #FFF;
+      font-size: 1.5rem;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
     .preview-overlay {
       position: fixed;
@@ -179,6 +203,9 @@
       cursor: pointer;
     }
     .hidden { display: none !important; }
+    .form-group { margin: 16px 0; }
+    label { display: block; font-size: 0.75rem; font-weight: 600; margin-bottom: 6px; color: #C7C7CC; }
+    input[type="text"], textarea { width: 100%; padding: 10px 12px; background: #1A1A1D; border: 1px solid #2B2B30; border-radius: 8px; color: #F5F5F7; font-size: 0.875rem; }
   </style>
 </head>
 <body>
@@ -188,12 +215,15 @@
       <button id="back-btn">←</button>
     </div>
     <div class="right-controls">
-      <button class="control-icon" id="upload-btn">📁</button>
+      <a href="templates.html" class="control-icon" style="text-decoration:none; display:flex; align-items:center; justify-content:center;">🧩</a>
       <button class="control-icon" id="edit-btn">✏️</button>
       <button class="control-icon" id="text-btn">T</button>
-      <button class="control-icon" id="flip-btn">🔄</button>
     </div>
-    <button class="capture-btn" id="capture-btn"></button>
+    <div class="bottom-bar">
+      <button class="thumbnail-btn" id="upload-btn">📁</button>
+      <button class="capture-btn" id="capture-btn"></button>
+      <button class="flip-btn-bottom" id="flip-btn">🔄</button>
+    </div>
   </div>
 
   <input type="file" id="media-file" accept="image/*,video/*" class="hidden" />
@@ -204,6 +234,10 @@
   </div>
 
   <div class="preview-overlay hidden" id="preview-overlay">
+    <div class="form-group">
+      <label for="caption">Caption</label>
+      <input type="text" id="caption" placeholder="Add a funny caption..." />
+    </div>
     <div class="preview-media" id="preview-media">
       <img id="preview-img" src="" alt="Preview" class="hidden" />
       <video id="preview-video" controls class="hidden"></video>

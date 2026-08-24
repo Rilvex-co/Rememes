@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Rememes - Welcome</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0A0A0B;
+      color: #F5F5F7;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+    .onboarding-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: url('https://i.guim.co.uk/img/media/327e46c3ab049358fad80575146be9e0e65686e7/0_0_1023_742/master/1023.jpg?width=465&dpr=1&s=none&crop=none') center/cover no-repeat;
+    }
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(10,10,11,0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .steps-container {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .step {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 400px;
+      animation: fadeIn 0.3s ease;
+    }
+    .step.active {
+      display: flex;
+    }
+    .step-card {
+      background: rgba(20,20,25,0.9);
+      border: 1px solid #2B2B30;
+      border-radius: 28px;
+      padding: 32px 24px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    }
+    .step-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .step-subtitle {
+      color: #9E9EA3;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+    }
+    .suggested-users {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 16px 0;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .user-suggestion {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid #2B2B30;
+      transition: background 0.2s;
+    }
+    .user-suggestion:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    .user-suggestion .avatar-circle {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: #212125;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #9E9EA3;
+      overflow: hidden;
+      border: 2px solid #2B2B30;
+    }
+    .user-suggestion .avatar-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    .user-info {
+      flex: 1;
+      text-align: left;
+      min-width: 0;
+    }
+    .user-name {
+      font-weight: 600;
+      font-size: 0.85rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .user-sub {
+      font-size: 0.7rem;
+      color: #9E9EA3;
+    }
+    .follow-btn {
+      background: #FFFFFF;
+      color: #000;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: background 0.2s, color 0.2s;
+      flex-shrink: 0;
+      width: 80px;
+      text-align: center;
+    }
+    .follow-btn.followed {
+      background: #1A1A1D;
+      color: #F5F5F7;
+      border: 1px solid #2B2B30;
+    }
+    .step-btn {
+      background: #FFFFFF;
+      color: #000;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 30px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 8px;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .step-btn:active { transform: scale(0.97); }
+    .skip-btn {
+      background: transparent;
+      color: #C7C7CC;
+      border: none;
+      padding: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.9rem;
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      animation: pulse 2s infinite;
+    }
+    .topic-chip {
+      display: inline-block;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid #2B2B30;
+      border-radius: 20px;
+      padding: 8px 16px;
+      margin: 4px;
+      cursor: pointer;
+      color: #C7C7CC;
+      font-size: 0.8rem;
+    }
+    .topic-chip:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+      0% { opacity: 0.4; }
+      50% { opacity: 1; }
+      100% { opacity: 0.4; }
+    }
+  </style>
+</head>
+<body>
+  <div class="onboarding-container">
+    <div class="overlay"></div>
+    <div class="steps-container">
+      <!-- Step 1: Welcome -->
+      <div class="step active" id="step-1">
+        <div class="step-card">
+          <div style="font-size:64px;">😂</div>
+          <div class="step-title">Welcome to Rememes</div>
+          <div class="step-subtitle">Discover, create, and share memes that make the internet laugh.</div>
+          <button class="step-btn" id="next-1">Continue</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Follow interesting people -->
+      <div class="step" id="step-2">
+        <div class="step-card">
+          <div class="step-title">Follow creators</div>
+          <div class="step-subtitle">Follow people you like to personalize your feed.</div>
+          <div class="suggested-users" id="suggested-users"></div>
+          <button class="step-btn" id="next-2">Next</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Discover topics -->
+      <div class="step" id="step-3">
+        <div class="step-card">
+          <div class="step-title">Discover topics</div>
+          <div class="step-subtitle">Tap hashtags that interest you.</div>
+          <div class="suggested-topics" id="suggested-topics"></div>
+          <button class="step-btn" id="next-3">Finish</button>
+        </div>
+      </div>
+    </div>
+
+    <button class="skip-btn" id="skip-btn">Skip</button>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+  <script type="module" src="/src/onboarding.ts"></script>
+</body>
+</html>

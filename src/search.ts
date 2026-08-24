@@ -20,6 +20,59 @@ async function performSearch(query: string) {
 
   resultsContainer.innerHTML = '<p class="empty-state">Searching...</p>';
 
+  if (query.startsWith('#')) {
+    const tagName = query.slice(1).toLowerCase();
+    // Search posts by hashtag
+    const { data: hashtagPosts, error: hashtagError } = await supabase
+      .from('post_hashtags')
+      .select('post_id, hashtags(name)')
+      .filter('hashtags.name', 'eq', tagName)
+      .limit(20);
+
+    if (hashtagError) {
+      console.error('Hashtag search error:', hashtagError);
+      resultsContainer.innerHTML = `<p class="empty-state">Error searching hashtag: ${hashtagError.message}</p>`;
+      return;
+    }
+
+    const postIds = hashtagPosts?.map((h: any) => h.post_id) || [];
+    if (postIds.length === 0) {
+      resultsContainer.innerHTML = '<p class="empty-state">No posts found for this hashtag.</p>';
+      return;
+    }
+
+    const { data: posts, error: postError } = await supabase
+      .from('posts')
+      .select('id, caption, media_url, type, user_id, username:profiles(username)')
+      .in('id', postIds)
+      .eq('status', 'published');
+
+    if (postError) console.error('Post search error:', postError);
+
+    // Render only posts section, hide users
+    const postsHtml = posts && posts.length > 0
+      ? posts.map((p: any) => `
+          <a href="post.html?id=${p.id}">
+            <div class="post-result">
+              <div class="post-thumb">
+                ${p.type === 'image' ? `<img src="${p.media_url}" alt="" />` : `<video src="${p.media_url}" muted></video>`}
+              </div>
+              <div class="post-caption">${escapeHtml(p.caption || '')}</div>
+              <span style="font-size:0.7rem;color:#9E9EA3;">${p.username || ''}</span>
+            </div>
+          </a>
+        `).join('')
+      : '<p class="empty-state">No posts found</p>';
+
+    resultsContainer.innerHTML = `
+      <div class="result-section">
+        <div class="section-title">Posts with #${tagName}</div>
+        ${postsHtml}
+      </div>
+    `;
+    return;
+  }
+
   // Search users by username prefix
   const { data: users, error: userError } = await supabase
     .from('profiles')

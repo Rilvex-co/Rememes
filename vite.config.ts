@@ -19,6 +19,7 @@ export default defineConfig({
         remix: resolve(__dirname, 'remix.html'),
         templates: resolve(__dirname, 'templates.html'),
         editProfile: resolve(__dirname, 'edit-profile.html'),
+        onboarding: resolve(__dirname, 'onboarding.html'),
         privacy: resolve(__dirname, 'privacy.html'),
         terms: resolve(__dirname, 'terms.html'),
       },

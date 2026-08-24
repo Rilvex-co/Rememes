@@ -70,7 +70,7 @@ async function loadUserProfile(userId: string) {
       const media = post.type === 'image'
         ? `<img src="${post.media_url}" alt="post" loading="lazy" />`
         : `<video src="${post.media_url}" muted></video>`;
-      return `<div class="grid-item">${media}</div>`;
+      return `<a href="post.html?id=${post.id}" class="grid-item" style="text-decoration:none; color:inherit;">${media}</a>`;
     }).join('');
   } else {
     postsGrid = '<p class="empty-state">No posts yet.</p>';
