@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "638068155172",
+    "project_id": "rememes-66a92",
+    "storage_bucket": "rememes-66a92.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:638068155172:android:6a356b2ce643c2e10b49b1",
+        "android_client_info": {
+          "package_name": "Com.rememes.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAj9RC0KwmyRziR5dDvh5rCcHX3f0eIBy8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
