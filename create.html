@@ -186,7 +186,6 @@
     <video id="camera-video" autoplay playsinline muted></video>
     <div class="top-overlay">
       <button id="back-btn">←</button>
-      <input type="text" id="caption" placeholder="Add caption..." />
     </div>
     <div class="right-controls">
       <button class="control-icon" id="upload-btn">📁</button>
@@ -198,6 +197,11 @@
   </div>
 
   <input type="file" id="media-file" accept="image/*,video/*" class="hidden" />
+
+  <div id="camera-fallback" class="hidden" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#0A0A0B; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;">
+    <p style="color:#F5F5F7;">Camera unavailable</p>
+    <button id="upload-fallback-btn" class="btn-primary">📁 Upload from gallery</button>
+  </div>
 
   <div class="preview-overlay hidden" id="preview-overlay">
     <div class="preview-media" id="preview-media">

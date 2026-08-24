@@ -137,6 +137,22 @@ async function initGlobal() {
   if (!user) return;
 
   await initHeader(user);
+
+  // Show onboarding if first visit
+  const onboardingSeen = localStorage.getItem('rememes-onboarding-seen');
+  if (!onboardingSeen) {
+    const overlay = document.getElementById('onboarding-overlay');
+    if (overlay) {
+      overlay.style.display = 'flex';
+      const closeBtn = document.getElementById('onboarding-close-btn');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+          localStorage.setItem('rememes-onboarding-seen', '1');
+          overlay.style.display = 'none';
+        });
+      }
+    }
+  }
   initSwipeNavigation();
 
   supabase

@@ -62,7 +62,20 @@
       font-weight: 600;
       cursor: pointer;
     }
-  </style>
+  
+.resize-handle {
+  position: absolute;
+  bottom: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
+  background: #FFF;
+  border: 2px solid #C7C7CC;
+  border-radius: 50%;
+  cursor: nwse-resize;
+  touch-action: none;
+}
+</style>
 </head>
 <body>
   <div class="app-container">
@@ -74,10 +87,7 @@
     <div id="editor-container"></div>
   </div>
 
-  <div class="text-input-container" id="text-input-container">
-    <input type="text" id="floating-text-input" placeholder="Type text..." />
-    <button id="add-text-btn">Add</button>
-  </div>
+
 
   <script type="module" src="/src/main.ts"></script>
   <script type="module" src="/src/authGuard.ts"></script>

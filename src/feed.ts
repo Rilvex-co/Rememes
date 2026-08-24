@@ -1,5 +1,6 @@
 import { supabase } from './lib/supabase.ts';
 import { getCurrentUser } from './lib/auth.ts';
+import { generateShareCard } from './shareCard.ts';
 
 const feedContainer = document.getElementById('feed-container') as HTMLElement;
 
@@ -22,7 +23,13 @@ async function fetchPosts() {
   }
 
   if (!posts || posts.length === 0) {
-    feedContainer.innerHTML = '<p style="text-align:center; color:#9E9EA3;">No memes yet. Be the first to create one!</p>';
+    feedContainer.innerHTML = `
+      <div class="empty-state" style="text-align:center; padding:60px 20px;">
+        <div style="font-size:48px;">😂</div>
+        <h3 style="font-size:1.2rem; margin:12px 0;">No memes yet</h3>
+        <p style="color:#9E9EA3; margin-bottom:20px;">Be the first to create one!</p>
+        <a href="create.html" style="background:#FFFFFF; color:#000; border:none; border-radius:10px; padding:10px 24px; font-weight:600; text-decoration:none;">Create Meme</a>
+      </div>`;
     return;
   }
 
@@ -36,29 +43,34 @@ async function fetchPosts() {
 
     return `
       <article class="post-card" data-post-id="${post.id}">
-        <div class="post-header">
-          <a href="user.html?id=${post.user_id}" style="text-decoration:none; color:inherit; display:flex; align-items:center; gap:12px;">
-            <div class="avatar">${post.avatar_url ? `<img src="${post.avatar_url}" alt="${username}" />` : username.charAt(0).toUpperCase()}</div>
-            <div class="post-author-info">
+        <div class="post-row">
+          <div style="position:absolute; left:20px; top:45px; bottom:30px; width:2px; background:#4A4A55; border-radius:2px; z-index:1;">
+            <svg viewBox="0 0 34 20" preserveAspectRatio="none" style="position:absolute; left:-1px; bottom:-12px; width:36px; height:20px; z-index:1;">
+              <path d="M2 0 V10 Q2 18 10 18 H32" stroke="#4A4A55" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="post-avatar">
+            ${post.avatar_url ? `<img src="${post.avatar_url}" alt="${username}" />` : username.charAt(0).toUpperCase()}
+          </div>
+          <div class="post-main">
+            <div class="post-header">
               <span class="post-author">${username}</span>
               <span class="post-meta">${timeAgo}</span>
             </div>
-          </a>
-        </div>
-        <div class="post-media">
-          ${post.type === 'image'
-            ? `<img src="${post.media_url}" alt="meme" loading="lazy" />`
-            : `<video src="${post.media_url}" controls preload="metadata"></video>`}
-        </div>
-        <div class="post-content">
-          <p class="post-caption">${escapeHtml(post.caption || '')}</p>
-          <div class="post-actions">
-            <button class="action-button like-btn ${isLiked ? 'liked' : ''}" data-post-id="${post.id}" data-action="like">
-              ${isLiked ? '❤️' : '🤍'} <span class="like-count">${likeCount}</span>
-            </button>
-            <button class="action-button comment-btn" data-post-id="${post.id}" data-action="comment">💬 <span class="comment-count">${commentCount}</span></button>
-            <button class="action-button remix-btn" data-post-id="${post.id}" data-action="remix">🔁 Remix <span class="remix-count">${remixCount}</span></button>
-            <button class="action-button share-btn" data-post-id="${post.id}" data-action="share">↗️ Share</button>
+            <p class="post-caption">${escapeHtml(post.caption || '')}</p>
+            <div class="post-media">
+              ${post.type === 'image'
+                ? `<img src="${post.media_url}" alt="meme" loading="lazy" />`
+                : `<video src="${post.media_url}" controls preload="metadata"></video>`}
+            </div>
+            <div class="post-actions">
+              <button class="action-button like-btn ${isLiked ? 'liked' : ''}" data-post-id="${post.id}" data-action="like">
+                ${isLiked ? '❤️' : '🤍'} <span class="like-count">${likeCount}</span>
+              </button>
+              <button class="action-button comment-btn" data-post-id="${post.id}" data-action="comment">💬 <span class="comment-count">${commentCount}</span></button>
+              <button class="action-button remix-btn" data-post-id="${post.id}" data-action="remix">🔁 <span class="remix-count">${remixCount}</span></button>
+              <button class="action-button share-btn" data-post-id="${post.id}" data-action="share">↗️ Share</button>
+            </div>
           </div>
         </div>
       </article>
@@ -146,31 +158,34 @@ async function sharePost(postId: string) {
 
     if (!post) return;
 
-    const caption = post.caption || 'Check this meme on Rememes';
-    const url = `${window.location.origin}/post.html?id=${postId}`;
+    const shareFile = await generateShareCard(post);
+    const postUrl = `${window.location.origin}/post.html?id=${postId}`;
+    const shareText = `${post.caption || 'Check this meme on Rememes'}\n${postUrl}`;
 
-    if (navigator.canShare && navigator.canShare({ files: [] }) && post.media_url) {
-      const response = await fetch(post.media_url);
-      const blob = await response.blob();
-      const ext = blob.type.split('/')[1] || 'jpg';
-      const file = new File([blob], `meme.${ext}`, { type: blob.type });
+    if (navigator.canShare && navigator.canShare({ files: [shareFile] })) {
       await navigator.share({
+        files: [shareFile],
         title: 'Rememes',
-        text: caption,
-        files: [file],
+        text: shareText,
       });
     } else if (navigator.share) {
       await navigator.share({
         title: 'Rememes',
-        text: caption,
-        url,
+        text: shareText,
+        url: postUrl,
       });
     } else {
-      await navigator.clipboard.writeText(`${caption}\n${url}`);
-      alert('Link copied!');
+      const url = URL.createObjectURL(shareFile);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'rememes-share.png';
+      a.click();
+      URL.revokeObjectURL(url);
+      alert('Share link copied: ' + postUrl);
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error('Share error:', error);
+    alert('Could not generate share card: ' + (error?.message || 'Unknown error'));
   }
 }
 

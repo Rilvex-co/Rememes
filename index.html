@@ -21,11 +21,11 @@
     .post-author-info { display: flex; flex-direction: column; }
     .post-author { font-weight: 600; font-size: 0.875rem; }
     .post-meta { font-size: 0.7rem; color: #6E6E73; }
-    .post-media { width: 100%; background: #1A1A1D; display: flex; align-items: center; justify-content: center; }
+    
     .post-media img, .post-media video { width: 100%; max-height: 480px; object-fit: contain; display: block; }
     .post-content { padding: 16px; }
     .post-caption { margin-bottom: 12px; font-size: 0.875rem; }
-    .post-actions { display: flex; gap: 16px; padding-top: 12px; border-top: 1px solid #2B2B30; }
+    
     .action-button { display: flex; align-items: center; gap: 8px; background: none; border: none; color: #9E9EA3; font-size: 0.875rem; cursor: pointer; padding: 8px; border-radius: 6px; }
     .action-button:hover { background: #1A1A1D; }
     .action-button.remix { color: #C7C7CC; font-weight: 600; }
@@ -151,32 +151,677 @@
     .search-bar-icon { font-size: 0.9rem; }
     .search-bar-placeholder { color: rgba(255,255,255,0.25); font-style: italic; letter-spacing: 0.3px; }
 
-/* Feed adjustments */
+
+
+.thread-line-old {
+  position: absolute;
+  left: -24px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #4A4A55;
+  border-radius: 2px;
+  z-index: 2;
+}
+
+
+.thread-curve-old {
+  position: absolute;
+  left: -24px;
+  top: -10px;
+  width: 24px;
+  height: 20px;
+  border-left: 2px solid #4A4A55;
+  border-bottom: 2px solid #4A4A55;
+  border-radius: 0 0 0 12px;
+  z-index: 2;
+}
+
+
+
+.thread-line-old {
+  position: absolute;
+  left: -24px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #4A4A55;
+  border-radius: 2px;
+  z-index: 2;
+}
+
+
+
+
+
+
+/* Original V1 Feed Styles */
 .post-card {
-  margin-bottom: 0 !important;
-  border-radius: 0 !important;
-  border-left: none !important;
-  border-right: none !important;
+  background: #111113;
+  border: 1px solid #2B2B30;
+  border-radius: 14px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #2B2B30;
+}
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #212125;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: #9E9EA3;
+  overflow: hidden;
+}
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.post-author-info {
+  display: flex;
+  flex-direction: column;
+}
+.post-author {
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+.post-meta {
+  font-size: 0.7rem;
+  color: #6E6E73;
+}
+
+.post-media img,
+.post-media video {
+  width: auto;
+  max-width: 100%;
+  max-height: 480px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  }
+.post-content {
+  padding: 16px;
+}
+.post-caption {
+  margin-bottom: 12px;
+  font-size: 0.875rem;
+  color: #F5F5F7;
+}
+
+.action-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: #9E9EA3;
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+}
+.action-button:hover {
+  background: #1A1A1D;
+}
+.action-button.remix {
+  color: #C7C7CC;
+  font-weight: 600;
+}
+.action-button.liked {
+  color: #FF453A;
+}
+
+/* Align action buttons right */
+
+
+/* Original V1 Feed Styles */
+.post-card {
+  background: #111113;
+  border: 1px solid #2B2B30;
+  border-radius: 14px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #2B2B30;
+}
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #212125;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: #9E9EA3;
+  overflow: hidden;
+}
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.post-author-info {
+  display: flex;
+  flex-direction: column;
+}
+.post-author {
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+.post-meta {
+  font-size: 0.7rem;
+  color: #6E6E73;
 }
 .post-media {
-  aspect-ratio: 4 / 5 !important;
-  max-height: none !important;
+  width: 100%;
+  background: #1A1A1D;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .post-media img,
 .post-media video {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  max-height: none !important;
+  width: 100%;
+  max-height: 480px;
+  object-fit: contain;
+  display: block;
+}
+.post-content {
+  padding: 16px;
+}
+.post-caption {
+  margin-bottom: 12px;
+  font-size: 0.875rem;
+  color: #F5F5F7;
+}
+.post-actions {
+  display: flex;
+  gap: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #2B2B30;
+}
+.action-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: #9E9EA3;
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+}
+.action-button:hover {
+  background: #1A1A1D;
+}
+.action-button.remix {
+  color: #C7C7CC;
+  font-weight: 600;
+}
+.action-button.liked {
+  color: #FF453A;
 }
 
-    /* Stretch home header full width */
-    .app-header {
-      margin-left: -16px !important;
-      margin-right: -16px !important;
-      padding-left: 16px !important;
-      padding-right: 16px !important;
-    }
+/* Modern Feed Styles */
+.post-card {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  margin-bottom: 24px;
+  overflow: visible;
+}
+.post-header {
+  padding: 0 0 8px;
+  border-bottom: none;
+  align-items: center;
+}
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #212125;
+  font-size: 0.8rem;
+}
+.post-author {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.post-meta {
+  font-size: 0.75rem;
+}
+.post-media {
+  width: 100%;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+.post-media img,
+.post-media video {
+  width: auto;
+  max-width: 100%;
+  max-height: 600px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+.post-content {
+  padding: 12px 0 0;
+}
+.post-caption {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.post-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: none;
+}
+.action-button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: #9E9EA3;
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 6px;
+}
+.action-button:hover {
+  background: #1A1A1D;
+}
+.action-button.remix {
+  color: #C7C7CC;
+  font-weight: 600;
+}
+.action-button.liked {
+  color: #FF453A;
+}
+
+/* Full-screen TikTok-style feed */
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+.app-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.app-header {
+  flex-shrink: 0;
+}
+.feed-filters {
+  flex-shrink: 0;
+}
+main#feed-container {
+  flex: 1;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 0 !important;
+}
+.post-card {
+  scroll-snap-align: start;
+  height: 100%;
+  margin: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+}
+.post-header {
+  padding: 8px 16px;
+  flex-shrink: 0;
+}
+.post-media {
+  flex: 1;
+  margin: 0 8px;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+.post-media img,
+.post-media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  margin: 0;
+}
+.post-content {
+  padding: 8px 16px;
+  flex-shrink: 0;
+}
+.post-caption {
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+.post-actions {
+  padding: 4px 16px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-top: none !important;
+}
+
+/* X (Twitter) Style Feed */
+html, body {
+  height: auto;
+  overflow: auto;
+}
+.app-container {
+  height: auto;
+  display: block;
+}
+main#feed-container {
+  overflow-y: auto;
+  scroll-snap-type: none;
+}
+.post-card {
+  scroll-snap-align: none;
+  height: auto;
+  margin: 0 !important;
+  border: none !important;
+  border-bottom: 1px solid #2B2B30 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+}
+.post-header {
+  padding: 0 0 8px;
+  flex-shrink: 0;
+  border-bottom: none;
+}
+.post-media {
+  flex: none;
+  margin: 8px 0;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #111113;
+  box-shadow: none;
+}
+.post-media img,
+.post-media video {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  margin: 0;
+  border-radius: 16px;
+}
+.post-content {
+  padding: 0;
+  flex-shrink: 0;
+}
+.post-caption {
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+  -webkit-line-clamp: unset;
+  display: block;
+  overflow: visible;
+}
+.post-actions {
+  padding: 4px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-top: none !important;
+}
+.action-button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: #9E9EA3;
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+}
+.action-button:hover {
+  background: #1A1A1D;
+}
+.action-button.remix {
+  color: #C7C7CC;
+  font-weight: 600;
+}
+.action-button.liked {
+  color: #FF453A;
+}
+
+/* Discord-style message feed */
+html, body {
+  height: auto;
+  overflow: auto;
+}
+.app-container {
+  height: auto;
+  display: block;
+  max-width: 600px;
+  margin: 0 auto;
+}
+main#feed-container {
+  overflow-y: auto;
+  scroll-snap-type: none;
+}
+.post-card {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  padding: 8px 16px;
+  border-bottom: 1px solid #1E1E24 !important;
+}
+.post-row {
+  display: flex;
+  gap: 12px;
+}
+.post-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #212125;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #9E9EA3;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.post-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.post-main {
+  flex: 1;
+  min-width: 0;
+}
+.post-header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+.post-author {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #F5F5F7;
+}
+.post-meta {
+  font-size: 0.7rem;
+  color: #6E6E73;
+}
+.post-caption {
+  font-size: 0.9rem;
+  color: #F5F5F7;
+  margin-bottom: 4px;
+  word-wrap: break-word;
+}
+.post-media {
+  width: 100%;
+  max-width: 480px;
+  background: #1A1A1D;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+.post-media img,
+.post-media video {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-height: 400px;
+  object-fit: contain;
+}
+.post-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 6px;
+}
+.action-button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: #9E9EA3;
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+}
+.action-button:hover {
+  background: #1A1A1D;
+}
+.action-button.remix {
+  color: #C7C7CC;
+  font-weight: 600;
+}
+.action-button.liked {
+  color: #FF453A;
+}
+
+/* Discord-style connector line and curve */
+.post-row {
+  position: relative;
+}
+.post-connector {
+  position: absolute;
+  left: 20px; /* center of avatar (40px / 2) */
+  top: 46px; /* moved down slightly */
+  bottom: 10px; /* moved up slightly */
+  width: 2px;
+  background: #4A4A55;
+  border-radius: 2px;
+  z-index: 1;
+}
+.post-connector .connector-curve {
+  position: absolute;
+  left: -2px; /* align with vertical line */
+  bottom: 0;
+  width: 34px;
+  height: 20px;
+  z-index: 1;
+}
+
+/* FORCE CONNECTOR FINAL VALUES */
+.post-card .post-connector {
+  position: absolute !important;
+  left: 20px !important;
+  top: 35px !important;   /* moved down to shorten from top */
+  bottom: 25px !important; /* moved up to shorten from bottom */
+  width: 2px !important;
+  background: #4A4A55 !important;
+  border-radius: 2px !important;
+  z-index: 1 !important;
+}
+.post-card .post-connector .connector-curve {
+  position: absolute !important;
+  left: 0px !important;  /* moved left */
+  bottom: 10px !important; /* moved up */
+  width: 36px !important;
+  height: 20px !important;
+  z-index: 1 !important;
+}
+
+/* ULTIMATE CONNECTOR OVERRIDE */
+html body .app-container main#feed-container .post-card .post-connector {
+  position: absolute !important;
+  left: 20px !important;
+  top: 45px !important;   /* moved lower */
+  bottom: 30px !important; /* moved higher */
+  width: 2px !important;
+  background: #4A4A55 !important;
+  border-radius: 2px !important;
+  z-index: 1 !important;
+}
+html body .app-container main#feed-container .post-card .post-connector .connector-curve {
+  position: absolute !important;
+  left: -1px !important;   /* changed to -1px */
+  bottom: 10px !important;  /* keep current */
+  width: 36px !important;
+  height: 20px !important;
+  z-index: 1 !important;
+}
+
+/* Full-width home header background */
+.app-header {
+  margin-left: -16px !important;
+  margin-right: -16px !important;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+}
 </style>
 </head>
 <body>
@@ -224,6 +869,15 @@
       <div style="font-size: 0.65rem;">Profile</div>
     </a>
   </nav>
+
+  
+  <div id="onboarding-overlay" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); z-index: 99998; display: none; align-items: center; justify-content: center; padding: 24px;">
+    <div style="background: #111113; border: 1px solid #2B2B30; border-radius: 20px; padding: 24px; max-width: 360px; width: 100%; text-align: center;">
+      <h2 style="font-size:1.25rem; font-weight:700; margin-bottom:12px;">Welcome to Rememes</h2>
+      <p style="color:#9E9EA3; font-size:0.9rem; line-height:1.5; margin-bottom:20px;">Discover memes, remix them in seconds, and build your reputation.</p>
+      <button id="onboarding-close-btn" style="background:#FFFFFF; color:#000; border:none; border-radius:10px; padding:10px 24px; font-weight:600; cursor:pointer;">Get Started</button>
+    </div>
+  </div>
 
   <script type="module" src="/src/main.ts"></script>
   <script type="module" src="/src/authGuard.ts"></script>

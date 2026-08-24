@@ -27,20 +27,29 @@ async function startCamera() {
     stream = await navigator.mediaDevices.getUserMedia({
       video: {
         facingMode: facingMode,
-        width: { ideal: 1920 },
-        height: { ideal: 1080 },
-        frameRate: { ideal: 30 },
+        width: { ideal: 3840 },
+        height: { ideal: 2160 },
+        frameRate: { ideal: 60, max: 60 },
+        focusMode: 'continuous',
       },
     });
     video.srcObject = stream;
     video.style.transform = facingMode === 'user' ? 'scaleX(-1)' : 'scaleX(1)';
-  } catch (err) {
+  } catch (err: any) {
     console.warn('Camera unavailable:', err);
     cameraContainer.style.display = 'none';
+    const fallback = document.getElementById('camera-fallback');
+    if (fallback) {
+      fallback.classList.remove('hidden');
+      const p = fallback.querySelector('p');
+      if (p) p.textContent = 'Camera unavailable: ' + (err?.message || 'unknown error');
+    }
   }
 }
 
 startCamera();
+
+document.getElementById('upload-fallback-btn')?.addEventListener('click', () => fileInput.click());
 
 document.getElementById('back-btn')?.addEventListener('click', () => {
   window.location.href = 'index.html';

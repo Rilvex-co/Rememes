@@ -47,6 +47,7 @@ async function loadTab(tab: string) {
   else if (tab === 'reports') await loadReports();
   else if (tab === 'content') await loadContent();
   else if (tab === 'metrics') await loadMetrics();
+  else if (tab === 'templates') await loadTemplatesTab();
 }
 
 async function loadUsers() {
@@ -206,6 +207,97 @@ async function updatePostStatus(postId: string, status: string) {
   }
   alert(`Post ${status}`);
   loadTab('content');
+}
+
+
+async function loadTemplatesTab() {
+  container.innerHTML = '<p class="loading">Loading templates...</p>';
+
+  const { data: templates, error } = await supabase
+    .from('templates')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    container.innerHTML = `<p class="loading">Error: ${error.message}</p>`;
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="card">
+      <div class="card-title">Add Template</div>
+      <div class="form-group">
+        <label>Template Name</label>
+        <input type="text" id="template-name" placeholder="e.g., Drake" />
+      </div>
+      <div class="form-group">
+        <label>Template Image</label>
+        <input type="file" id="template-file" accept="image/*" />
+      </div>
+      <button class="action-btn" id="add-template-btn">Add Template</button>
+    </div>
+    <div id="templates-list"></div>
+  `;
+
+  document.getElementById('add-template-btn')?.addEventListener('click', async () => {
+    const name = (document.getElementById('template-name') as HTMLInputElement).value.trim();
+    const fileInput = document.getElementById('template-file') as HTMLInputElement;
+    const file = fileInput.files?.[0];
+    if (!name || !file) {
+      alert('Please provide a name and select an image');
+      return;
+    }
+
+    const fileName = `templates/${Date.now()}-${file.name}`;
+    const { error: uploadError } = await supabase.storage
+      .from('post-media') // reuse existing public bucket
+      .upload(fileName, file, { cacheControl: '3600', upsert: false });
+
+    if (uploadError) {
+      alert('Failed to upload image: ' + uploadError.message);
+      return;
+    }
+
+    const { data: publicUrlData } = supabase.storage
+      .from('post-media')
+      .getPublicUrl(fileName);
+    const url = publicUrlData.publicUrl;
+
+    const { error: insertError } = await supabase.from('templates').insert({ name, url });
+    if (insertError) {
+      alert('Failed to add template: ' + insertError.message);
+      return;
+    }
+    alert('Template added!');
+    loadTemplatesTab();
+  });
+
+  const listContainer = document.getElementById('templates-list') as HTMLElement;
+  if (templates && templates.length > 0) {
+    listContainer.innerHTML = templates.map((template: any) => `
+      <div class="content-row">
+        <div class="user-info">
+          <div class="user-name">${template.name}</div>
+          <div class="user-email">${template.url}</div>
+        </div>
+        <button class="action-btn danger" data-action="delete-template" data-template-id="${template.id}">Delete</button>
+      </div>
+    `).join('');
+
+    listContainer.addEventListener('click', async (e) => {
+      const target = e.target as HTMLElement;
+      const btn = target.closest('[data-action]') as HTMLElement;
+      if (!btn) return;
+      if (btn.dataset.action === 'delete-template') {
+        const templateId = btn.dataset.templateId;
+        await supabase.from('templates').delete().eq('id', templateId);
+        alert('Template deleted');
+        loadTemplatesTab();
+      }
+    });
+  } else {
+    listContainer.innerHTML = '<p class="loading">No templates.</p>';
+  }
 }
 
 async function loadMetrics() {

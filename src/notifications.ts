@@ -38,7 +38,12 @@ async function loadNotifications() {
     .eq('is_read', false);
 
   if (!notifications || notifications.length === 0) {
-    container.innerHTML = '<p class="empty-state">No notifications yet.</p>';
+    container.innerHTML = `
+      <div class="empty-state" style="text-align:center; padding:60px 20px;">
+        <div style="font-size:48px;">🔔</div>
+        <h3 style="font-size:1.2rem; margin:12px 0;">No notifications</h3>
+        <p style="color:#9E9EA3;">You're all caught up!</p>
+      </div>`;
     return;
   }
 

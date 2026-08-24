@@ -609,3 +609,123 @@ body.light .user-result,
 body.light .post-result {
   border-bottom-color: #E5E5EA !important;
 }
+
+
+/* ================= GLOBAL SIZE REDUCTION ================= */
+html {
+  font-size: 14px; /* base was 16px */
+}
+
+.heading {
+  font-size: 1.25rem !important;
+}
+
+.title {
+  font-size: 0.95rem !important;
+}
+
+.body-text {
+  font-size: 0.8rem !important;
+}
+
+.caption {
+  font-size: 0.7rem !important;
+}
+
+.micro {
+  font-size: 0.6rem !important;
+}
+
+.post-author {
+  font-size: 0.8rem !important;
+}
+
+.post-caption {
+  font-size: 0.8rem !important;
+}
+
+.comment-content {
+  font-size: 0.8rem !important;
+}
+
+.profile-username {
+  font-size: 0.95rem !important;
+}
+
+.profile-bio {
+  font-size: 0.75rem !important;
+}
+
+.meta-value {
+  font-size: 0.9rem !important;
+}
+
+.meta-label {
+  font-size: 0.65rem !important;
+}
+
+.action-button {
+  font-size: 0.75rem !important;
+}
+
+.action-button svg {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+.filter-chip {
+  font-size: 0.75rem !important;
+}
+
+.bottom-nav .nav-item {
+  font-size: 0.6rem !important;
+}
+
+.bottom-nav .nav-item svg {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.bottom-nav .nav-create {
+  width: 38px !important;
+  height: 38px !important;
+}
+
+.header-avatar {
+  width: 28px !important;
+  height: 28px !important;
+  font-size: 0.7rem !important;
+}
+
+.header-action-btn {
+  font-size: 1rem !important;
+}
+
+.search-bar {
+  padding: 5px 10px !important;
+  font-size: 0.75rem !important;
+}
+
+.search-bar-icon {
+  font-size: 0.8rem !important;
+}
+
+.template-name {
+  font-size: 0.65rem !important;
+}
+
+.badge-chip {
+  font-size: 0.65rem !important;
+}
+
+.notification-text {
+  font-size: 0.8rem !important;
+}
+
+.setting-label {
+  font-size: 0.85rem !important;
+}
+
+.theme-option {
+  font-size: 0.75rem !important;
+}

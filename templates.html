@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Rememes - Templates</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { background: #0A0A0B; color: #F5F5F7; font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 70px; }
+    .app-container { max-width: 480px; margin: 0 auto; padding: 0 16px; }
+    .app-header { position: sticky; top: 0; background: rgba(10,10,11,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid #2B2B30; padding: 12px 0; z-index: 10; display: flex; align-items: center; gap: 12px; }
+    .heading { font-size: 1.5rem; font-weight: 700; }
+    .template-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 20px 0; }
+    .template-item { background: #111113; border: 1px solid #2B2B30; border-radius: 10px; overflow: hidden; cursor: pointer; transition: transform 0.2s; }
+    .template-item:active { transform: scale(0.96); }
+    .template-item img { width: 100%; height: auto; aspect-ratio: 4/3; object-fit: cover; display: block; }
+    .template-name { padding: 8px; font-size: 0.75rem; color: #9E9EA3; text-align: center; text-transform: capitalize; }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <a href="create.html" style="color:#F5F5F7; text-decoration:none;">←</a>
+      <div class="heading">Templates</div>
+    </header>
+
+    <div class="template-grid" id="template-grid"></div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+  <script type="module" src="/src/authGuard.ts"></script>
+  <script type="module" src="/src/templates.ts"></script>
+</body>
+</html>
